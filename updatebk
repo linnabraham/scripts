@@ -1,0 +1,16 @@
+#!/bin/sh
+
+isbn="$1"
+ownership=false
+db="$HOME/mybooks.csv"
+if [ "$2" == 'own' ]; then
+    ownership=true
+fi
+
+api="https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn"
+
+title=`curl -s $api | jq --raw-output '.items[0]| .volumeInfo.title'`
+author=`curl -s $api | jq --raw-output '.items[0]| .volumeInfo.authors[0]'`
+line=\'$isbn\',$title,$author,$ownership
+echo "$line"
+echo "$line" >> $db
