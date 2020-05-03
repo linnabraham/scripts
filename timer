@@ -1,0 +1,5 @@
+#!/bin/bash
+time="$1"
+#terminator --command=" sleep \"$time\" && mpv $HOME/stuff/alarm.mp3 "
+sleep "$time" && terminator -e "mpv $HOME/stuff/alarm.mp3"
+
