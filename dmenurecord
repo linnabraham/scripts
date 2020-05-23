@@ -35,7 +35,7 @@ screencast() { \
 	-i $DISPLAY \
 	-f alsa -i default \
 	-r 30 \
-	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mkv" &
+	"$HOME/Pictures/screencap/screencast-$(date '+%y%m%d-%H%M-%S').mkv" &
 	echo $! > /tmp/recordingpid
 	updateicon "⏺️🎙️"
        	}
