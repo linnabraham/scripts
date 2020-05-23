@@ -2,7 +2,7 @@
 
 isbn="$1"
 ownership=false
-db="$HOME/mybooks.csv"
+db="$HOME/Dropbox/data/mybooks.csv"
 if [ "$2" == 'own' ]; then
     ownership=true
 fi
