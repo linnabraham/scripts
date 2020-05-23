@@ -1,0 +1,26 @@
+#!/bin/bash
+# Quickly create a markdown template file for making presentations
+
+title=${1%.*}
+file_name=$title"_slides.md"
+make_file() {
+
+cat >"$file_name" <<EOF
+---
+title:
+- $title
+author:
+- Linn Abraham
+theme:
+- Copenhagen
+---
+
+EOF
+
+if [[ -f "$1" ]]; then
+cat "$1" >> "$file_name"
+fi
+
+}
+
+make_file $1
