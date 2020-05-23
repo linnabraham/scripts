@@ -11,6 +11,10 @@ if [[ $@ = "-l" ]]; then
     python $HOME/.local/bin/saved-io/show-bookmarks.py 
 fi
 
+if [[ $@ = "-i" ]]; then
+    python $HOME/.local/bin/saved-io/retrieve-bookmarks.py 
+fi
+
 
 while getopts ":i:l:d:" opt; do
     case $opt in

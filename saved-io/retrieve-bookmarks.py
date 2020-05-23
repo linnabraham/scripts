@@ -7,7 +7,10 @@ import pandas as pd
 import saved as config
 
 args = sys.argv
-num = int(args[1])
+try:
+    num = int(args[1])
+except:
+    num = 150
 filepath=config.FILEPATH
 
 baseurl = 'http://devapi.saved.io/bookmarks?'
@@ -28,7 +31,7 @@ def initialize(maxpages = 200):
             print(e)
         bookmarks = eval(r.text)
         if next:
-            print(f"page no{i}, lastid {lastid}")
+            # print(f"page no{i}, lastid {lastid}")
             for b in bookmarks:
                 idx, title, url = b['bk_id'], b['bk_title'], b['bk_url']
                 # print(idx)
@@ -45,4 +48,5 @@ def initialize(maxpages = 200):
             break
         token['page']+=1
     data.to_csv(filepath,index=False,line_terminator='\n')
-# initialize(num)
+    print(f"bookmarks updated with {i} pages")
+initialize(num)
