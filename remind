@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/remind -z -k'notify-send "Reminder" %s -t 0 --icon=dialog-information &' /home/guest/.reminders &
