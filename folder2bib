@@ -1,0 +1,6 @@
+#!/bin/bash
+
+filename='bulkref.bib'
+cb2bib --sloppy --doc2bib *.pdf $filename 
+cat $filename >> "$MYBIB"
+rm $filename
