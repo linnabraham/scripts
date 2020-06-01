@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+# Project: hastebin
+# Author: kevr <kevin.morris@codestruct.net>
+# Description: A tool which uploads data from stdin to hastebin.com
+# Copyright (C) 2017 Kevin Morris
+# Copyright (C) 2020 Denis Zheleztsov <difrex@lessmore.pw>
+
+import sys
+import os
+import requests
+import json
+from select import select
+
+
+# Hastebin server url
+url = os.environ.get("HASTEBIN_SERVER_URL", "https://hastebin.com")
+# Connection timeout
+timeout = int(os.environ.get("HASTEBIN_SERVER_TIMEOUT", 5))
+
+
+def has_data(fd):
+    """Immediately timed out select poll"""
+    return select([fd], [], [], 0.0) == ([fd], [], [])
+
+
+def quit(code, msg):
+    """Print message to the STDERR and returns exit code"""
+    sys.stderr.write(msg + "\n")
+    return code
+
+
+## Sorry for the C-style functions, I prefer them
+def main():
+    if not has_data(sys.stdin):
+        return quit(1, "hastebin: no data given via stdin")
+
+    try:
+        stdin = sys.stdin.read()
+    except UnicodeDecodeError:
+        return quit(2, "hastebin: an error occured reading stdin")
+        
+    response = requests.post("%s/documents" % url, headers={
+      "Accept": "application/json"}, data=stdin)
+    if response.status_code != requests.codes.ok:
+      return quit(3, "hastebin: error submitting POST data to hastebin")
+
+    content = response.content.decode("UTF-8").rstrip()
+    data = json.loads(content)
+
+    print("%s/%s" % (url, data["key"]))
+
+    return 0
+
+
+# main execution
+if __name__ == "__main__":
+    e = main()
+    exit(e)
+
