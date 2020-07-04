@@ -1,0 +1,4 @@
+#!/bin/sh
+
+newname=$(echo "$1"  | perl -pe 's/[ \(\)]/_/g;')
+mv "$1" "$newname" && echo "file renamed to" $newname
