@@ -1,8 +1,8 @@
-#!/home/guest/tf3/bin/python
+#!/usr/bin/env python
 # Python program to 
 # demonstrate creation of an 
 # assistant using wolf ram API 
-from gtts import gTTS
+# from gtts import gTTS
 
 import wolframalpha 
 
