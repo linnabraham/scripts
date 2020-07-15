@@ -26,11 +26,19 @@ open_note () {
     fi
 }
 
+notes="$HOME/Dropbox/drafts/me/diary"
+if [[ "$1" == "" ]]; then
+year=`date +'%Y'`
+month=`date +'%m'`
+day=`date +'%d'`
+
+else 
 ndate="$(dateparse $1)"
 year="$(echo $ndate | cut -d'/' -f 1)"
 month="$(echo $ndate | cut -d'/' -f 2)"
 day="$(echo $ndate | cut -d'/' -f 3)"
-notes="$HOME/Dropbox/drafts/me/diary"
+fi
+
 note_path=$notes/$year/$month/$day.gpg
 
 create_note
