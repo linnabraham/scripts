@@ -27,10 +27,17 @@ open_note () {
 }
 
 notes="$HOME/Dropbox/drafts/expenses"
+if [[ "$1" == "" ]]; then
+year=`date +'%Y'`
+month=`date +'%m'`
+day=`date +'%d'`
+
+else 
 ndate="$(dateparse $1)"
 year="$(echo $ndate | cut -d'/' -f 1)"
 month="$(echo $ndate | cut -d'/' -f 2)"
 day="$(echo $ndate | cut -d'/' -f 3)"
+fi
 note_path=$notes/$year/$month/$day.md
 
 create_note
