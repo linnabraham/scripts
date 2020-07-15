@@ -2,7 +2,7 @@
 
 create_note () {
     if [ ! -f $note_path ]; then
-        mkdir -p ~/notes/$year/$month/
+        mkdir -p ~/Dropbox/jots/$year/$month/
         touch $note_path
         printf "$day-$month-$year\n---\n\n" > $note_path
         printf "Created new note: $note_path\n"
@@ -53,7 +53,7 @@ open_note () {
 year=`date +'%Y'`
 month=`date +'%m'`
 day=`date +'%d'`
-note_path=~/notes/$year/$month/$day.md
+note_path=~/Dropbox/jots/$year/$month/$day.md
 
 if (( $# > 0 )); then
     while [[ $# -gt 0 ]]
