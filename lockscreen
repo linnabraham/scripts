@@ -1,0 +1,15 @@
+#!/bin/bash
+
+PICTURE=/tmp/i3lock.png
+# Use the screenshot of desktop as lockscreen
+SCREENSHOT="scrot $PICTURE"
+# Use the wallpaper as lockscreen image
+#SCREENSHOT=$HOME/.local/share/bg
+BLUR="5x4"
+
+$SCREENSHOT
+convert $SCREENSHOT -blur $BLUR  $PICTURE
+# uncomment the following line if you are okay with transparency
+#convert $SCREENSHOT  $PICTURE
+i3lock -i $PICTURE
+rm $PICTURE
