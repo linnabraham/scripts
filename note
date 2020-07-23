@@ -2,7 +2,7 @@
 
 create_note () {
     if [ ! -f $note_path ]; then
-        mkdir -p ~/Dropbox/jots/$year/$month/
+        mkdir -p $notes/$year/$month/
         touch $note_path
         printf "$day-$month-$year\n---\n\n" > $note_path
         printf "Created new note: $note_path\n"
@@ -50,46 +50,20 @@ open_note () {
     fi
 }
 
+notes="$HOME/Dropbox/jots"
+if (( $# > 0 )); then
+ndate="$(dateparse $1)"
+year="$(echo $ndate | cut -d'/' -f 1)"
+month="$(echo $ndate | cut -d'/' -f 2)"
+day="$(echo $ndate | cut -d'/' -f 3)"
+
+else
 year=`date +'%Y'`
 month=`date +'%m'`
 day=`date +'%d'`
-note_path=~/Dropbox/jots/$year/$month/$day.md
-
-if (( $# > 0 )); then
-    while [[ $# -gt 0 ]]
-    do
-        key="$1"
-        case $key in
-            -e|--edit)
-            printf "(e)dit is not yet implemented :(\n"
-            #shift
-            #shift
-            exit 0
-            ;;
-            -p|--print)
-            cat $note_path
-            shift
-            ;;
-            -c|--create)
-            create_note
-            shift
-            ;;
-            -i|--info)
-            print_info
-            shift
-            ;;
-            -h|--help)
-            print_help
-            shift
-            ;;
-            *)
-            printf "Unknown Argument \"$1\"\n"
-            printf "Try \"note --help\" to see usage information.\n"
-            shift
-            ;;
-        esac
-    done
-else
-    create_note
-    open_note
 fi
+
+note_path=$notes/$year/$month/$day.md
+
+create_note
+open_note
