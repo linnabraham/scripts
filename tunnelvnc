@@ -1,0 +1,7 @@
+#!/bin/bash
+# Author:Linn Abraham
+# Script that first creates a vpn tunnel for port forwarding from a machine without static ip to a remote server
+# using services like portmap.io and then shares the currently running Xsession using vnc
+
+sudo openvpn --config $HOME/.local/share/linn.first.ovpn &
+x0vncserver -rfbauth ~/.vnc/passwd -rfbport 5901 -display :0
