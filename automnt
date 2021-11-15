@@ -1,6 +1,6 @@
 #!/bin/bash
 BASEDIR="/mnt"
-for PARTITION in `fdisk -l | grep -v swap | egrep -o /dev/sd.[0-9]+` ; do
+for PARTITION in `fdisk -l | grep -v swap | grep Linux | egrep -o /dev/sd.[0-9]+` ; do
 mount | grep -q "^$PARTITION"
 if [ $? -eq 1 ] ; then
 blkid $PARTITION > /dev/null
@@ -12,4 +12,3 @@ fi
 fi
 done
 exit 0
-

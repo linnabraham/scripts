@@ -148,11 +148,11 @@ function monthlen {
 
 # Main block {{{1
 usagestr="usage: $TODO_SH $self DUEDATE ITEM#+
-parameter conditions: 
+parameter conditions:
  * DUEDATE must be in a supported date format
  * ITEM# must be an integer
  # TODO: add a list of the valid formats
-# Date formats 
+# Date formats
 ## yyyy-mm-dd   is the standard* date format
 ## --mm--dd     is the standard* date format in the current year
 ## ---dd        is a date format in the current month and year
@@ -189,7 +189,7 @@ case $2 in
     # ## literal dates (aliases for diferential dates)
     if [[ $inputdate = "nw" ]]; then
         inputdate="+7"
-    elif [[ $inputdate = "today" ]]; then 
+    elif [[ $inputdate = "today" ]]; then
         inputdate="+0"
     else
         lower=$(echo $inputdate | tr '[:upper:]' '[:lower:]')
@@ -219,7 +219,8 @@ case $2 in
         # if b is defined, a weekday was given
         if [[ -n $b ]]; then
             a=$(date +%u) # current weekday ordinal (1:monday, 7:sunday)
-            inputdate=$(echo +$((b-a))) # convert into differential duedate
+	    #inputdate=$(echo +$((b-a))) # convert into differential duedate
+	    inputdate=$(echo +$((b-a-7))) # avoid  differential duedate
         fi
     fi
     # ## numerical dates
@@ -349,9 +350,9 @@ case $2 in
     # printf "%d-%02d-%02d\n" $year $month $date
     #ddate=$( printf "%04d-%02d-%02d" $year $month $date )
     ddate=$( printf "%04d/%02d/%02d" $year $month $date )
+    ddate=$( printf "%04d-%02d-%02d" $year $month $date )
 
     ;;
 esac
 echo $ddate
 # EOB Mainblock 1}}}
-

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#TODO: fix error when there are duplicate mount points present for the target disk
+# eg, when using timeshift-gtk
 # To obtain the mounted directory of Hdisk using its UUID use findmnt command
 # Eg:
 # findmnt -n -o TARGET /dev/disk/by-uuid/b4f4662d-eca1-4698-8d1b-802226f6939b
