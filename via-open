@@ -14,8 +14,9 @@ while read arg; do
 		*.txt)
 			$TERMINAL $EDITOR "$arg" &
 			;;
-		*.pdf | *.epub)
-			okular "$arg" &    
+		*.pdf | *.epub | *.djvu)
+			okular "$arg" &
+			#zathura "$arg" &
 			#mupdf "$arg" &
 			;;
 		*.mp3)
