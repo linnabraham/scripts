@@ -10,7 +10,7 @@ pdf="$1"
 file_name=
 
 make_file() {
-    echo "${1%.*}.pdf" 
+    #echo "${1%.*}.pdf"
 
 cat >"$file_name" <<EOF
 

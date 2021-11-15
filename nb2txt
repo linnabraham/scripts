@@ -1,4 +1,6 @@
 #!/bin/bash
+# This script is to view jupyter notebooks in a pager view and integrates with ranger
+# the lynx version doesnt seem to work
+#jupyter nbconvert --to html --stdout "$1" | lynx -dump | less
 
 jupyter nbconvert --to html --stdout "$1" | w3m -T text/html -dump | less
-
