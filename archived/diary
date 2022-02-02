@@ -1,0 +1,45 @@
+#!/bin/bash
+
+create_note () {
+    if [ ! -f $note_path ]; then
+        mkdir -p $notes/$year/$month/
+        touch $note_path
+        printf "$day-$month-$year\n---\n\n" > $note_path
+        printf "Created new note: $note_path\n"
+    else
+        printf "Note \"$note_path\" already exists. Saving changes to existing file.\n"
+    fi
+}
+
+open_note () {
+    if [[ $EDITOR = *"vim"* ]] || [[ $EDITOR = *"nvim"* ]]; then
+        # Open Vim or Neovim in insert mode.
+        $EDITOR "+normal G$" +startinsert! $note_path
+    elif [[ $EDITOR = *"emacs"* ]]; then
+        # Open Emacs with cursor at EOF.
+        emacs -nw $note_path --eval "(goto-char (point-max))"
+    elif [[ $EDITOR = "" ]]; then
+        # If no default editor, use Vim and open in insert mode.
+        vim "+normal G$" +startinsert! $note_path
+    else
+        $EDITOR $note_path
+    fi
+}
+
+notes="$HOME/Dropbox/drafts/me/diary"
+if [[ "$1" == "" ]]; then
+year=`date +'%Y'`
+month=`date +'%m'`
+day=`date +'%d'`
+
+else 
+ndate="$(dateparse $1)"
+year="$(echo $ndate | cut -d'/' -f 1)"
+month="$(echo $ndate | cut -d'/' -f 2)"
+day="$(echo $ndate | cut -d'/' -f 3)"
+fi
+
+note_path=$notes/$year/$month/$day.gpg
+
+create_note
+open_note

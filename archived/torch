@@ -1,0 +1,2 @@
+#!/bin/sh
+bash -c  'SUDO_ASKPASS=/home/linn/.local/bin/dpass sudo -iA $(dmenu_path | dmenu "$@") &'  

@@ -1,0 +1,5 @@
+#!/bin/bash
+starts=$(echo $2 | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+durn=$(echo $3 | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 - $starts}')
+echo $durn
+youtube-dl --extract-audio --audio-format mp3 "$1" |  ffmpeg -f mp3 -i -   -ss $starts -acodec copy -vcodec copy -t $durn cropped_output.mp3

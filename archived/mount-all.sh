@@ -1,0 +1,14 @@
+#!/bin/bash
+BASEDIR="/mnt"
+for PARTITION in `fdisk -l | grep -v swap | egrep -o /dev/sd.[0-9]+` ; do
+mount | grep -q "^$PARTITION"
+if [ $? -eq 1 ] ; then
+blkid $PARTITION > /dev/null
+if [ $? -eq 0 ] ; then
+MOUNTPOINT=$BASEDIR/`echo $PARTITION | egrep -o sd.[0-9]+`
+mkdir -p $MOUNTPOINT
+mount $PARTITION $MOUNTPOINT
+fi
+fi
+done
+exit 0

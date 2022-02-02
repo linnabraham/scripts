@@ -1,0 +1,35 @@
+#!/bin/bash
+
+source /home/guest/.local/bin/saved-io/saved.py
+echo $FILEPATH
+
+if [[ $@ = "-u" ]]; then
+    python $HOME/.local/bin/saved-io/update-bookmarks.py 
+fi
+
+if [[ $@ = "-l" ]]; then
+    python $HOME/.local/bin/saved-io/show-bookmarks.py 
+fi
+
+if [[ $@ = "-i" ]]; then
+    python $HOME/.local/bin/saved-io/retrieve-bookmarks.py 
+fi
+
+
+while getopts ":i:l:d:" opt; do
+    case $opt in
+	d) args="$OPTARG"
+	   python $HOME/.local/bin/saved-io/rm-bookmarks.py "$args"
+	echo "deleted $args"
+	;;
+        l) args="$OPTARG"
+	python $HOME/.local/bin/saved-io/show-bookmarks.py "$args"
+	;;
+    i) args="$OPTARG"
+	python $HOME/.local/bin/saved-io/retrieve-bookmarks.py "$args"
+    esac
+done
+
+
+
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+target=$(find ~/music/ -type f | dmenu -l 20 -i -p "Play Music:")
+if [ "$target" != "" ] ; then
+    mate-terminal --command="mpv --loop --no-audio-display \"$target\" "
+fi
+

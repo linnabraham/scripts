@@ -1,0 +1,5 @@
+#!/bin/bash
+# This script is for moving the firefox picture in picture window to a predefined position on scree
+wid=$(wmctrl -l | awk '/Picture-in-Picture/ {print $1}')
+xdotool windowsize $wid 500 300
+xdotool windowmove $wid 1410 780

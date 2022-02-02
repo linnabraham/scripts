@@ -1,0 +1,4 @@
+#!/bin/bash
+# use ctrl-d to stop the program
+#terminator --command="time cat;bash"
+$TERMINAL -e sh -c  "time cat;bash"

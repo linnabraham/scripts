@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+
+
+chosen=$(dbrowse)
+
+feh $chosen

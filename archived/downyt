@@ -1,0 +1,4 @@
+#!/bin/bash
+url="$(xsel)"
+notify-send "Downloading $url in the background"
+youtube-dl -cio '$HOME/Downloads/%(title)s.%(ext)s' $url

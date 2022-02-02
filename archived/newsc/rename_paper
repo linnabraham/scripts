@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [[ "$2" == "" ]];then
+doi=$(pdf2doi "$1")
+echo "$doi"
+if [[ $doi != "" ]]; then
+title=$(doi2bib "$doi" | grep title | awk -F"[{}]" '{print $2}'o | sed -e 's/[^A-Za-z0-9._-]/_/g')
+filename="$title.pdf"
+dir=$(dirname "$1")
+fullpath="$dir/$filename"
+echo "$fullpath"
+mv "$1" "$fullpath" 
+fi
+else 
+    if [[ "$2" == "ar" ]]; then
+    arxivid="${1%.*}"
+    echo "$arxivid"
+    title=$(arxiv2bib "$arxivid" | grep title | awk -F"[{}]" '{print $2}'o | sed -e 's/[^A-Za-z0-9._-]/_/g')
+    echo "$title"
+    rename_arxiv "$1"
+    exit 0
+    fi
+fi
