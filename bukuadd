@@ -1,0 +1,9 @@
+#!/bin/bash
+# This script is for importing the selected url to buku database and send a
+# desktop notification. It is to be bound to a shortcut key
+url=$(xsel -o)
+echo $url
+notify-send "Adding bookmark for $url"
+#xsel | buku -a
+buku -w 'notepadqq' -a $url
+#buku -w 'subl' -a $url
