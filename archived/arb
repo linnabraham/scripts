@@ -1,6 +1,0 @@
-#!/bin/bash
-
-cd ~/Dropbox/archivebox-data
-url=$(xsel)
-echo $url
-archivebox add $url

@@ -1,6 +1,0 @@
-#!/bin/sh
-
-url="$(xsel)"
-notify-send "Playing $url using MPV"
-#mpv --ytdl-format=171+133 "$url" &
-mpv  "$url" &

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-url="http://man.he.net/?topic="$1"&section=all"
-lynx $url

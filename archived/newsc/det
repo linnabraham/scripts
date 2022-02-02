@@ -1,5 +1,0 @@
-#!/bin/bash
-
-filepath="$HOME/Dropbox/drafts/details.md"
-
-ag "$1" $filepath

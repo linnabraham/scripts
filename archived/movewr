@@ -1,4 +1,0 @@
-#!/bin/bash
-sleep 2
-wid=$(wmctrl -l | awk '/Workrave/ {print $1}')
-xdotool windowmove $wid 1263 738

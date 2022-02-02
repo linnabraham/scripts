@@ -1,4 +1,0 @@
-#!/bin/sh
-val="$1"
-echo $val > /sys/class/backlight/intel_backlight/brightness 
-

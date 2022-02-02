@@ -1,7 +1,0 @@
-#!/bin/bash
-
-id="$1"
-
-file="$HOME/Dropbox/Notes/$id.md"
-
-vim "$file"
