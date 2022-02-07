@@ -1,0 +1,19 @@
+#!/bin/bash
+icon="🕐"
+datecmd='date "+%b %d (%a) $icon%I:%M%p"'
+
+echo ""
+echo -n 'Doha/Manama: '
+eval TZ='Asia/Qatar' $datecmd
+
+echo -n 'New York: '
+eval TZ=America/New_York $datecmd
+
+echo -n 'Home: '
+eval $datecmd
+
+echo -n 'Canada: '
+eval TZ=Canada/Atlantic $datecmd
+
+echo -n 'Sweden: '
+eval TZ=Europe/Stockholm $datecmd
