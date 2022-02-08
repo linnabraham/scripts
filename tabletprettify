@@ -1,0 +1,30 @@
+#!/bin/bash
+# This script loops over all the files in the tablet folder to which Zotero pushes files
+# Looks for an identically named bib file inside the pubs directory and if found
+# creates a symlink at a predefined destination with a usable filename for reading on kindle
+pubsdir="$HOME/pubs/bib/"
+docsdir="$HOME/Downloads/tablet/"
+destdir="/media/Media/kindle_pubs/"
+
+echo [INFO]: pubs directory is at $pubsdir
+echo [INFO]: tablet directory is at $docsdir
+echo [INFO]: destination directory for symlinks is at $destdir
+echo "[INFO]: Creating new symlinks..."
+
+for file in $docsdir*;
+do
+    base=$(basename "$file")
+    citekey="${base%.*}"
+    bibfile=$pubsdir"$citekey".bib
+    echo $bibfile
+    if [[ -f "$bibfile" ]]; then
+    pdftitle=$(parsebib.sh "$bibfile")
+    destlink="$destdir"$pdftitle".pdf"
+	if [[ ! -f "$destlink" ]]; then
+    	echo creating a symlink for $file at $destlink
+	ln -s "$file" "$destlink"
+    else echo "Symlink already exists. Taking no action."
+	fi
+    else echo "No bib file found for renaming."
+    fi
+done
