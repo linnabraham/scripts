@@ -4,7 +4,7 @@
 # creates a symlink at a predefined destination with a usable filename for reading on kindle
 pubsdir="$HOME/pubs/bib/"
 docsdir="$HOME/Downloads/tablet/"
-destdir="/media/Media/kindle_pubs/"
+destdir="$HOME/Downloads/books+docs/pubsonkindle/"
 
 echo [INFO]: pubs directory is at $pubsdir
 echo [INFO]: tablet directory is at $docsdir
@@ -21,9 +21,10 @@ do
     pdftitle=$(parsebib.sh "$bibfile")
     destlink="$destdir"$pdftitle".pdf"
 	if [[ ! -f "$destlink" ]]; then
-    	echo creating a symlink for $file at $destlink
-	ln -s "$file" "$destlink"
-    else echo "Symlink already exists. Taking no action."
+    	echo creating a hardlink for $file at $destlink
+	# create hardlink instead of symbolic link as kindle doesnt support symlinks
+	ln "$file" "$destlink"
+    else echo "Hardlink already exists. Taking no action."
 	fi
     else echo "No bib file found for renaming."
     fi
