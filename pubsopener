@@ -1,0 +1,26 @@
+#!/bin/bash
+# This script is for quickly opening a research publication for reading and annotation
+# It make use of the pubs command line program; reformats the display for better viewing using awk
+# then passes to rofi run using the dmenu mode
+# It also has ability to make use of the tags feature in pubs to filter by tags
+
+
+
+QUERY="$(pubs list | awk  '{for (i=2; i<NF; i++) printf $i " "; print $NF " " $1}' | rofi -config ~/myrofi.rasi -dmenu -i -p "Search publications")"
+echo $QUERY
+
+if [[ $QUERY == "tags" ]]; then
+TAG="$(pubs tag | tr " " "\n" | rofi -dmenu -p "Select tag")"
+echo $TAG
+QUERY="$(pubs list tag:"$TAG" | awk  '{for (i=2; i<NF; i++) printf $i " "; print $NF " " $1}' | rofi  -dmenu -config ~/myrofi.rasi -p "Search publications")"
+fi
+
+PDFPATH="$HOME/Dropbox/publications/"
+citekey="$(echo "$QUERY" | awk -F'[][]' '{print $4}')"
+echo $citekey
+
+if [[ $citekey != "" ]] ; then
+    FILEPATH="$PDFPATH$citekey.pdf"
+    echo Opening $FILEPATH
+    zathura "$FILEPATH"
+fi
