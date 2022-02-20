@@ -19,7 +19,7 @@ ps -A --sort -rss -o comm,pmem,rss | awk '
     }
   }
 ' | awk 'NR>1' | sort -rnk4 | awk '
-  BEGIN {printf "%-20s\t%%MEM\tSIZE\n", "COMMAND"} 
+  BEGIN {printf "%-20s\t%%MEM\tSIZE\n", "COMMAND"}
   {
     printf "%-20s\t%s\t%s\n", $1, $2, $3
   }
