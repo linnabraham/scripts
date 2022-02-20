@@ -1,0 +1,11 @@
+#!/bin/bash
+# Luke's script that adds shortcuts for opening files and directories to bashrc
+# Config locations
+folders="$HOME/.config/directories"
+files="$HOME/.config/files"
+
+# Output locations
+shell_shortcuts="$HOME/.config/shortcutrc"
+sed "/^#/d" $folders | awk '{print "alias "$1"=\"cd "$2" && ls \""}' > $shell_shortcuts
+
+sed "/^#/d" $files | awk '{print "alias "$1"=\x27""vim "$2"\x27"}' >> $shell_shortcuts
