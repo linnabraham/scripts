@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PATTERN="$1"
+BASEPATH="$2"
+if [[ "$2" == "" ]]; then
+	BASEPATH="$HOME/Dropbox/Calibre_Library"
+fi
+echo base path is "$BASEPATH"
+
+if [[ $PATTERN != "" ]]; then
+    echo "searching for $PATTERN"
+    #grep -a -r "$PATTERN" "$BASEPATH" --color='auto'
+    FILEMATCH=$(rg -a "$PATTERN" "$BASEPATH" -l | fzf)
+    echo $FILEMATCH
+    if [[ $FILEMATCH != "" ]]; then
+	rg -a "$PATTERN" "$FILEMATCH"
+
+    while true; do
+	read -p "Do you wish to open the book?" yn
+	case $yn in
+	    [Yy]* ) OPEN=true; break;;
+	    [Nn]* ) exit;;
+	    * ) echo "Please answer yes or no.";;
+	esac
+    done
+    if [[ $OPEN ]]; then
+    xdg-open "$FILEMATCH" && exit
+    fi
+    fi
+fi
