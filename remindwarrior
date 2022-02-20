@@ -1,0 +1,29 @@
+#!/usr/bin/python
+# This script scrapes tasks with due dates from taskwarrior and adds
+# it to the remind program.
+
+import json, subprocess
+from pprint import pprint
+import pytz
+import datetime
+import dateutil.parser
+
+tz = pytz.timezone('Asia/Kolkata')
+outfile = '/home/linn/.config/remind/taskwarrior.rem'
+
+reminders = '# Taskwarrior Tasks with Due Dates\n'
+for t in json.loads(subprocess.check_output(['task', '+DUE', '+UNBLOCKED', 'export'])):
+    # reminders += ("REM %s-%s-%s MSG %%\"%s%%\" (taskwarrior)\n" % (t['due'][:4],t['due'][4:6],t['due'][6:8],t['description']))
+    dueZ=dateutil.parser.isoparse(t["due"])
+    duelocal=dueZ.replace(tzinfo=pytz.utc).astimezone(tz)
+    due=duelocal.isoformat()
+    reminders += ("REM %s MSG ""%s"" \n" % (due[:10],t['description']))
+
+print(reminders)
+
+with open(outfile, 'r') as f:
+    #compare file with reminders string
+    if reminders != f.read():
+        #write new file only if it differs from existing file
+        with open(outfile, 'w') as o:
+            o.write(reminders)
