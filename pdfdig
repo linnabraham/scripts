@@ -1,0 +1,12 @@
+#!/bin/bash
+basepath="$HOME/Dropbox/Research-DB"
+pattern=$1
+if [[ $pattern != "" ]]; then
+    echo "searching for $pattern"
+    pdffile=$(pdfgrep "$pattern" -r --max-count 1 -l --cache "$basepath" | fzf)
+    echo $pdffile
+    if [[ $pdffile != "" ]]; then
+	pdfgrep "$pattern" --cache "$pdffile" | fzf
+    devour xdg-open "$pdffile" && exit
+    fi
+fi
