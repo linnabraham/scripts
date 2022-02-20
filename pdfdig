@@ -1,4 +1,10 @@
 #!/bin/bash
+# This script accepts a pattern and searches inside pdf files
+# inside a defined base directory
+# It shows the files that are matched
+# and then a preview of the context
+# and finally opens the pdf in your default viewer
+
 basepath="$HOME/Dropbox/Research-DB"
 pattern=$1
 if [[ $pattern != "" ]]; then
