@@ -1,4 +1,8 @@
 #!/bin/bash
+# This script accepts a search pattern and
+# searches for the pattern inside a set of ebook files
+# It shows the matches for the selected book
+# Then opens the book with the default ebook viewer.
 
 PATTERN="$1"
 BASEPATH="$2"
