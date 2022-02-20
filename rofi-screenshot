@@ -81,7 +81,8 @@ rgstf() {
 rvrtf() {
   notify-send "Screenshot" "Select a region to record"
   dt=$(date '+%d-%m-%Y %H:%M:%S')
-  ffcast -q $(slop -n -f '-g %g ' && countdown) rec "$screenshot_directory/$dt.mp4"
+  #ffcast -q $(slop -n -f '-g %g ' && countdown) rec "$screenshot_directory/$dt.mp4"
+  ffmpeg -framerate 30 -f x11grab $(slop -f "-video_size %wx%h -i :0.0+%x,%y") -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac "$screenshot_directory/$dt.mp4"
   notify-send "Screenshot" "Recording saved to $screenshot_directory"
 }
 
