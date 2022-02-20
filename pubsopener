@@ -15,6 +15,21 @@ echo $TAG
 QUERY="$(pubs list tag:"$TAG" | awk  '{for (i=2; i<NF; i++) printf $i " "; print $NF " " $1}' | rofi  -dmenu -config ~/myrofi.rasi -p "Search publications")"
 fi
 
+if [[ $QUERY == "grep" ]]; then
+    PDFPATH="$HOME/Dropbox/Research-DB"
+    EBOOKPATH="$HOME/Dropbox/Calibre_Library"
+    CHOICE=$(printf " 1. PDFs in $PDFPATH  \n 2. ebooks in $EBOOKPATH" | rofi -dmenu -p "Enter your choice" | cut -d '.' -f 1)
+    echo $CHOICE
+    export GREPPAT="$( rofi -dmenu -p "Enter pattern for search")"
+    echo "Grep pattern $GREPPAT"
+    if [[ $CHOICE == " 1" ]]; then
+	st -e sh -c 'pdfdig "$GREPPAT" ' && exit
+    fi
+    if [[ $CHOICE == " 2" ]]; then
+	st -e sh -c 'ebookdig $GREPPAT'
+    fi
+fi
+
 PDFPATH="$HOME/Dropbox/publications/"
 citekey="$(echo "$QUERY" | awk -F'[][]' '{print $4}')"
 echo $citekey
