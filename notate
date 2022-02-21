@@ -4,15 +4,70 @@
 # https://github.com/connermcd/bin
 # MIT license
 
+# This script takes as input a pdf file
+# Tries to get a doi, arxiv-id or isbn from it and checks to see if the bibliography already exists
+# Either in my primary pubs database or the database for books.
+# If the entry exists it obtains the citekey and uses it for creating a note title.
+# Checks to see if a markdown note with the same title already exists in a particular destination
+# Creates one if it doesnt exists.
+# If a doi or arxiv-id is returned but doesnt exist in database, asks to add to db and exits
+# If a doi, arxiv-id or isbn is not returned, uses the pdf filename for creating a note
+
 set -e
 
 pdf="$1"
-file_name=
+
+#check_doi(){
+
+doi="$(pdf2doi.mine "$pdf")"
+    # if doi is found, check first in main pubs database
+if [[ $doi != "" ]]; then
+citekey="$(pubs list doi:$doi -k)"
+    # if not found in main pubs database then check in database for books; else extract bibtitle
+    if [[ $citekey == "" ]]; then
+	citekey="$(pubs --config "$HOME/.config/pubs_books/pubsrc" list doi:$doi -k)"
+	# If found in books database echo "found", else ask to add to database first
+    if [[ $citekey != "" ]]; then
+    	echo "Entry found in pubs $citekey"
+	bibfile="$HOME/Dropbox/scibooks/bib/$citekey.bib"
+	echo "Using bibtex info from $bibfile"
+	bibtitle="$(cat "$bibfile" | sed -n '3p' | cut -d{ -f2 | cut -d} -f1)"
+    else
+	echo "New item. Add to database."
+	exit
+    fi
+    else
+	bibfile="$HOME/pubs/bib/$citekey.bib"
+	bibtitle="$(cat "$bibfile" | sed -n '3p' | cut -d{ -f2 | cut -d} -f1)"
+	fi
+else
+    arxiv="$(pdf2arxiv "${1}")"
+    if [[ $arxiv != "" ]]; then
+	citekey="$(pubs list eprint:$arxiv -k)"
+	bibfile="$HOME/pubs/bib/$citekey.bib"
+	bibtitle="$(cat "$bibfile" | sed -n '3p' | cut -d{ -f2 | cut -d} -f1)"
+    else
+    isbn="$(pdf2isbn "${1}" | awk '{print $2}')"
+    if [[ $isbn != "" ]]; then
+    echo "Found ISBN"
+    citekey="$(pubs --config "$HOME/.config/pubs_books/pubsrc" list isbn:$isbn -k)"
+    echo "ISBN match found in pubs: $citekey"
+    bibfile="$HOME/Dropbox/scibooks/bib/$citekey.bib"
+    echo "Using bibtex info from $bibfile"
+    bibtitle="$(cat "$bibfile" | sed -n '3p' | cut -d{ -f2 | cut -d} -f1)"
+	else
+    	file_name="$pdf"
+    fi
+    fi
+file_name="$citekey".md
+fi
+
 
 make_file() {
-    #echo "${1%.*}.pdf"
 
 cat >"$file_name" <<EOF
+
+# $bibtitle
 
 # Summary
 
@@ -26,11 +81,12 @@ check_file() {
     file="$HOME/Dropbox/Notes/Papers/${1%.*}.md"
     if [[ -f $file ]]; then
             file_name="$file"
-    else
+	else
         file_name="$file"
         make_file "${1}"
+	notify-send "Creating a new note at $file_name"
     fi
 }
 
-check_file "${@}"
+check_file "${file_name}"
 vim "$file_name"
