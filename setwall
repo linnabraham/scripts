@@ -1,0 +1,5 @@
+#!/bin/bash
+# This script find the latest download image from my bing wallpaper collection
+# and sets it as the desktop wallpaper
+
+setbg "$(find ~/.bing-images/  -type f  -printf "%T@ %Tc %p\n" | sort -nr | head -1 | awk '{print $8}')"
