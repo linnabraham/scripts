@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# This script is used for adding a time based entry into the reminders.rem file used by remind
+# The date is always assumed to be today
+# It takes two parameters; First one is the MSG and Second one is the time
+
+echo REM AT "$2" MSG "$1" >> $HOME/.config/remind/reminders.rem
