@@ -1,4 +1,3 @@
 #!/bin/bash
 
-pdftotext "$1" - | head -50 | grep ISBN
-
+pdftotext "$1" - | head -100 | grep ISBN
