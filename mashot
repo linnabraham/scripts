@@ -1,0 +1,4 @@
+#!/bin/bash
+# This script takes a screenshot of the active window and also sends it to the clipboard using a tee junction
+maim -i $(xdotool getactivewindow) | tee  ~/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png
+notify-send "Screenshot captured and copied to clipboard"
