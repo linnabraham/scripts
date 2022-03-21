@@ -1,6 +1,11 @@
 #!/bin/bash
 
-#fd -e pdf -L | rofi -show file-browser-extended -file-browser-follow-symlinks -file-browser-stdin
-notify-send "Indexing pdf files..."
-findcmd="find -L $HOME/dbooks $HOME/Dropbox -type f -maxdepth 4 -iname '*.pdf' 2>/dev/null"
-eval "$findcmd" | rofi -show file-browser-extended -file-browser-follow-symlinks -file-browser-stdin
+# This script is for quickly opening up any pdf file
+# this uses the results of find which has been cached to a text file
+
+findresults="$HOME/.data/findpdfs.txt"
+targ=$(cat $findresults | rofi -show -dmenu -i)
+
+if [[ $targ != "" ]]; then
+zathura "$targ" &
+fi
