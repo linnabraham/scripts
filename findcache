@@ -1,4 +1,4 @@
 #!/bin/bash
 # This script is for running at boot to cache the results to speed up other scripts
 notify-send "caching find results"
-find -L $HOME/dbooks $HOME/Dropbox -type f -maxdepth 4 -iname '*.pdf' 2>/dev/null
+find -L $HOME/dbooks $HOME/Dropbox -type f -maxdepth 4 -iname '*.pdf' > $HOME/.data/findpdfs.txt
