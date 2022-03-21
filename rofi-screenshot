@@ -8,8 +8,7 @@
 ##    stop recording with rofi-screenshot -s
 
 # Screenshot directory
-#screenshot_directory="$HOME/Pictures/Screenshots"
-screenshot_directory="$HOME/recordings/Screenshots"
+screenshot_directory="$HOME/Pictures/Screenshots"
 
 # set ffmpeg defaults
 ffmpeg() {
@@ -54,6 +53,7 @@ cstc() {
 
 cstf() {
   dt=$(date '+%d-%m-%Y %H:%M:%S')
+  countdown
   ffcast -q png "$screenshot_directory/$dt.png"
   notify-send "Screenshot" "Screenshot saved to $screenshot_directory"
 }
